@@ -4,7 +4,7 @@
 
 宣告為基本型態的參數可以直接用 `==` 來判斷是否相等 ; 而參考型態則有不同的判斷方式。 
 以下程式的執行結果相信大家都不會有什麼問題
-`public class ComparisonDemo1 {
+```public class ComparisonDemo1 {
 	public static void main(String[] args) {
 		//基本型態的比較
 		byte 	b1=1, b2=1;
@@ -12,15 +12,18 @@
 		int 	i1=3, i2=3;
 		long 	l1=4, l2=4;
 		float 	f1=5.1f, f2=5.1f;
-		double 	d1=6.2, d2=6.20;		
+		double 	d1=6.2, d2=6.20;
+		
 		System.out.println("b1==b2: " + String.valueOf(b1==b2));
 		System.out.println("s1==s2: " + String.valueOf(s1==s2));
 		System.out.println("i1==i2: " + String.valueOf(i1==i2));
 		System.out.println("l1==l2: " + String.valueOf(l1==l2));
 		System.out.println("f1==f2: " + String.valueOf(f1==f2));
-		System.out.println("d1==d2: " + String.valueOf(d1==d2));		
+		System.out.println("d1==d2: " + String.valueOf(d1==d2));
+		
 	}
-}`
+
+}```
 
 
 ### Markdown
