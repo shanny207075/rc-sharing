@@ -12,17 +12,14 @@
 		int 	i1=3, i2=3;
 		long 	l1=4, l2=4;
 		float 	f1=5.1f, f2=5.1f;
-		double 	d1=6.2, d2=6.20;
-		
+		double 	d1=6.2, d2=6.20;		
 		System.out.println("b1==b2: " + String.valueOf(b1==b2));
 		System.out.println("s1==s2: " + String.valueOf(s1==s2));
 		System.out.println("i1==i2: " + String.valueOf(i1==i2));
 		System.out.println("l1==l2: " + String.valueOf(l1==l2));
 		System.out.println("f1==f2: " + String.valueOf(f1==f2));
-		System.out.println("d1==d2: " + String.valueOf(d1==d2));
-		
+		System.out.println("d1==d2: " + String.valueOf(d1==d2));		
 	}
-
 }`
 
 
