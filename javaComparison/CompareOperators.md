@@ -4,7 +4,8 @@
 
 宣告為基本型態的參數可以直接用 `==` 來判斷是否相等 ; 而參考型態則有不同的判斷方式。 
 以下程式的執行結果相信大家都不會有什麼問題
-```public class ComparisonDemo1 {
+```markdown
+public class ComparisonDemo1 {
 	public static void main(String[] args) {
 		//基本型態的比較
 		byte 	b1=1, b2=1;
