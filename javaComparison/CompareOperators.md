@@ -7,7 +7,8 @@
 
 宣告為基本型態的參數可以直接用 `==` 來判斷是否相等 ; 而參考型態則有不同的判斷方式。 
 
-基本型態的比較：
+基本型態的比較[Live Demo](http://tpcg.io/3l2d6v)：
+
 ```markdown
 public class ComparisonDemo1 {
 	public static void main(String[] args) {
