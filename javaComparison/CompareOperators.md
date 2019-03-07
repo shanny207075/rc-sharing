@@ -1,7 +1,9 @@
 ## Java == 及 equals 的差別
 
 首先我們先了解一下 Java 宣告參數及物件在記憶體的配置。
+![MemoryExplain](../images/memory_model_explain.jpg)
 
+![MemoryExplain](../images/memory_model_runing.jpg)
 宣告為基本型態的參數可以直接用 `==` 來判斷是否相等 ; 而參考型態則有不同的判斷方式。 
 以下程式的執行結果相信大家都不會有什麼問題
 ```markdown
@@ -21,9 +23,7 @@ public class ComparisonDemo1 {
 		System.out.println("l1==l2: " + String.valueOf(l1==l2));
 		System.out.println("f1==f2: " + String.valueOf(f1==f2));
 		System.out.println("d1==d2: " + String.valueOf(d1==d2));
-		
 	}
-
 }
 ```
 
