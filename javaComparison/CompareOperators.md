@@ -7,8 +7,7 @@
 
 宣告為基本型態的參數可以直接用 `==` 來判斷是否相等 ; 而參考型態則有不同的判斷方式。 
 
-基本型態的比較[Live Demo](http://tpcg.io/3l2d6v)：
-
+基本型態的比較 [live demo](http://tpcg.io/3l2d6v)：
 ```markdown
 public class ComparisonDemo1 {
 	public static void main(String[] args) {
@@ -19,17 +18,34 @@ public class ComparisonDemo1 {
 		long 	l1=4, l2=4;
 		float 	f1=5.1f, f2=5.1f;
 		double 	d1=6.2, d2=6.20;
-		
-		System.out.println("b1==b2: " + String.valueOf(b1==b2));
-		System.out.println("s1==s2: " + String.valueOf(s1==s2));
-		System.out.println("i1==i2: " + String.valueOf(i1==i2));
-		System.out.println("l1==l2: " + String.valueOf(l1==l2));
-		System.out.println("f1==f2: " + String.valueOf(f1==f2));
-		System.out.println("d1==d2: " + String.valueOf(d1==d2));
 	}
 }
 ```
 
+>b1==b2: true
+>s1==s2: true
+>i1==i2: true
+>l1==l2: true
+>f1==f2: true
+>d1==d2: true
+
+參考型態的比較 [live demo](http://tpcg.io/w50qrI)：
+```
+public class ComparisonDemo2 {
+
+	public static void main(String[] args) {
+		//參考型態的比較
+		Byte B1 = new Byte((byte)100), B2 = new Byte((byte)100);
+		Short S1 = new Short((short)300), S2 = new Short((short)300);
+		Integer I1 = new Integer(100), I2 = new Integer(100);
+		Long L1 = new Long(1000), L2 = new Long(1000);
+		Float F1 = new Float(100.12), F2 = new Float(100.120);
+		Double D1 = new Double(100.0123), D2 = new Double(100.012300);
+		BigDecimal BD1 = new BigDecimal(123.010), BD2 = new BigDecimal(123.0100);
+	}
+
+}
+```
 
 ### Markdown
 
