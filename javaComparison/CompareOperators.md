@@ -23,7 +23,7 @@ public class ComparisonDemo1 {
 ```
 
 比較結果
->true, true, true, true, true, true
+> true,   true,   true,   true,   true,   true
 
 **參考型態的比較 [live demo](http://tpcg.io/w50qrI)：**
 ```java
@@ -61,12 +61,14 @@ Double       D1.equals(D2): true
 BigDecimal BD1.equals(BD2): true
 ```
 
-**特殊情況 [live demo](http://tpcg.io/OsaZ6W)：**
+由結果得知，`==` 比較的是兩者是否是同一個物件 ; 而 `equals` 才是比較內容值。然而就像大部分的則規一樣，都有例外…
+
+**例外情況：**
 ```java
 public class ComparisonDemo3 {
 	public static void main(String[] args) {		
 		
-		Integer I1=3,   I2=3;
+		Integer I1=127,   I2=127;
 		Integer I3=300, I4=300;
 		System.out.println("I1==I2: " + String.valueOf(I1==I2));
 		System.out.println("I3==I4: " + String.valueOf(I3==I4) + "\n");
@@ -83,7 +85,18 @@ public class ComparisonDemo3 {
 }
 ```
 
-比較結果讓大家猜一猜
+比較結果讓大家猜一猜：[看解答](http://tpcg.io/OsaZ6W)
+
+為何 I1 等於等於 I2 而 I3 不等於等於 I4 呢? 因為 `Integer` 有個叫 `IntegerCache` 的內部類別，可以保證 -127~127 是相等的(但要是 new 出物件就還是不相等)。
+同樣的，`Short`、`Long` 也有他們的 Cache 類別。
+
+> 清醒一下：那為什麼 `Byte` 沒有 ?
+
+javaStr3==javaStr4 的原因是為了節省系統的資源，對於一些可共享的`String` 物件會先去 String Pool 查找是否有相同的 `String` 內容值，若有找到就直接回傳，不再重新 new 一個新的物件，參考下圖。
+當然，如果你直接 new 出來，那就不囉嗦，直接是一個新的物件。
+
+![String Comparison](../images/javaStringPool.png)
+
 
 **Calendar比較 [live demo](http://tpcg.io/enYwqH)：**
 ```java
@@ -103,6 +116,20 @@ public class ComparisonDemo4 {
 	}
 }
 ```
+
+比較結果：
+```java
+C1==C2               : false
+C1.equals(C2)        : false
+C1,C2 timeMiliiseconds: 1551590675463, 1551590675476 
+C1.equals(C2) clone  : true
+
+```
+
+不equals 的原因很簡單，因為時間不一樣。
+
+大致了解基本型態與參考型態的比較後，接下來我們來自訂類別，再比較看看。
+
 
 
 
