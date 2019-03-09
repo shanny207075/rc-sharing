@@ -61,7 +61,7 @@ Double       D1.equals(D2): true
 BigDecimal BD1.equals(BD2): true
 ```
 
-由結果得知，`==` 比較的是兩者是否是同一個物件 ; 而 `equals` 才是比較內容值。然而就像大部分的則規一樣，都有例外…
+> 由結果得知，`==` 比較的是兩者是否是同一個物件 ; 而 `equals` 才是比較內容值。然而就像大部分的則規一樣，都有例外…
 
 **例外情況：**
 ```java
@@ -85,14 +85,16 @@ public class ComparisonDemo3 {
 }
 ```
 
-比較結果讓大家猜一猜：[看解答](http://tpcg.io/OsaZ6W)
+> 比較結果讓大家猜一猜：[看解答](http://tpcg.io/OsaZ6W)
 
 為何 I1 等於等於 I2 而 I3 不等於等於 I4 呢? 因為 `Integer` 有個叫 `IntegerCache` 的內部類別，可以保證 -127~127 是相等的(但要是 new 出物件就還是不相等)。
+
 同樣的，`Short`、`Long` 也有他們的 Cache 類別。
 
 > 清醒一下：那為什麼 `Byte` 沒有 ?
 
 javaStr3==javaStr4 的原因是為了節省系統的資源，對於一些可共享的`String` 物件會先去 String Pool 查找是否有相同的 `String` 內容值，若有找到就直接回傳，不再重新 new 一個新的物件，參考下圖。
+
 當然，如果你直接 new 出來，那就不囉嗦，直接是一個新的物件。
 
 ![String Comparison](../images/javaStringPool.png)
@@ -126,9 +128,10 @@ C1.equals(C2) clone  : true
 
 ```
 
-> 不equals 的原因很簡單，因為時間不一樣。
+> 不equals 的原因很簡單，因為時間不一樣
 
-大致了解基本型態與參考型態的比較後，接下來我們來自訂類別，再比較看看 [live demo](http://tpcg.io/y6Iqdz)。
+大致了解基本型態與參考型態的比較後，接下來我們來自訂類別，再比較看看。[live demo](http://tpcg.io/y6Iqdz)
+
 **先創建 Point1 類別**
 ```java
 class Point1 {
@@ -152,7 +155,7 @@ public class ComparisonDemo5 {
 }
 ```
 
-> 結果會如何呢? 答案是 `false`。
+> 結果會如何呢? 答案是 `false`
 
 任何物件都繼承自 `Object`，若沒有 @Override(覆寫) `equals` 方法時，就會調用 `Object` 的 `equals` 方法，也就是 `==`：
 ```java
@@ -187,37 +190,71 @@ class Point1 {
 }
 ```
 
-再執行一次，結果應該就會是 `true` 了。
+> 再執行一次，結果應該就會是 `true` 了
 
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+接著再進一步將 **Point1** 物件放入 Collection 裡，再判斷物件的內容值是否相等。[live demo](http://tpcg.io/ZY335Q)
+```java
+public class ComparisonDemo52 {
+	public static void main(String[] args) {
+		Point1 p11 = new Point1(1,1);
+		Point1 p12 = new Point1(1,1);
+		HashSet<Point1> set = new HashSet<Point1>();
+		set.add(p11);
+		System.out.println("is p12 contains in set: " + String.valueOf(set.contains(p12)));		
+	}
+}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+> 執行結果是 `false`
 
-### Jekyll Themes
+如果牽扯到 `Collection`，那就要考慮到 `hashCode` 了。
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ivan11182002/rc-sharing/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+當`Collection`物件放入(put) 某個元素(物件)時，會先調用 `hashCode()` 方法，決定這個物件要存在哪個位置。若該位置沒有其他物件就直接儲存; 否則會調用 `equals()` 判斷是否為相同元素，相同元素不存; 不相同則散列於其他位置。
 
-### Support or Contact
+**重新創建一個類別 Point2**
+```java
+class Point2 {	
+	int x=0;
+	int y=0;
+	int identifier=0;
+	Point2(int x, int y, int h){
+		this.x = x;
+		this.y = y;
+		this.identifier = h;
+	}
+	@Override
+	public boolean equals(Object that) {
+		if(that==null) {
+			return false;
+		}
+		if(that instanceof Point2) {
+			return this.x == ((Point2)that).x && this.y == ((Point2)that).y;
+		}
+		return false;
+	}
+	/*----------------------------------------*/
+	@Override
+	public int hashCode() {
+		return this.identifier * 123;
+	}
+	/*----------------------------------------*/
+	
+}
+```
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+**ComparisonDemo52**
+```java
+public class ComparisonDemo52 {
+	public static void main(String[] args) {		
+		Point2 p21 = new Point2(3,3, 9);
+		Point2 p22 = new Point2(3,3, 9);
+		HashSet<Point2> set2 = new HashSet<Point2>();
+		set2.add(p21);
+		System.out.println("is p22 contains in set: " + String.valueOf(set2.contains(p22)));
+		
+	}
+
+}
+```
+
+> 最後，它終於相等了(灑花)
