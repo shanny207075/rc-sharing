@@ -192,7 +192,7 @@ class Point1 {
 
 > 再執行一次，結果應該就會是 `true` 了
 
-接著再進一步將 **Point1** 物件放入 Collection 裡，再判斷物件的內容值是否相等。[live demo](http://tpcg.io/ZY335Q)
+接著進一步將 **Point1** 物件放入 Collection 裡，再判斷物件的內容值是否相等。[live demo](http://tpcg.io/ZY335Q)
 ```java
 public class ComparisonDemo52 {
 	public static void main(String[] args) {
