@@ -71,12 +71,12 @@ public class ComparisonDemo3 {
 		System.out.println("I1==I2: " + String.valueOf(I1==I2));
 		System.out.println("I3==I4: " + String.valueOf(I3==I4) + "\n");
 		
-		String newString1 = new String("Oracle")
+		String newString1 = new String("Oracle");
 		String newString2 = new String("Oracle");
 		System.out.println("newString1==newString2       : " + String.valueOf(newString1==newString2)) ;
 		System.out.println("newString1.equals(newString2): " + String.valueOf(newString1.equals(newString2)) + "\n");
 				
-		String javaStr3="Java"
+		String javaStr3="Java";
 		String javaStr4="Java";	
 		System.out.println("javaStr3==javaStr4: " + String.valueOf(javaStr3==javaStr4));
 	}
