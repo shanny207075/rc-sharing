@@ -7,7 +7,7 @@
 
 宣告為基本型態的參數可以直接用 `==` 來判斷是否相等 ; 而參考型態則有不同的判斷方式。 
 
-- 基本型態的比較 [live demo](http://tpcg.io/3l2d6v)：
+**基本型態的比較 [live demo](http://tpcg.io/3l2d6v)：**
 ```java
 public class ComparisonDemo1 {
 	public static void main(String[] args) {
@@ -25,7 +25,7 @@ public class ComparisonDemo1 {
 比較結果
 >true, true, true, true, true, true
 
-- 參考型態的比較 [live demo](http://tpcg.io/w50qrI)：
+**參考型態的比較 [live demo](http://tpcg.io/w50qrI)：**
 ```java
 public class ComparisonDemo2 {
 	public static void main(String[] args) {
@@ -61,7 +61,7 @@ Double       D1.equals(D2): true
 BigDecimal BD1.equals(BD2): true
 ```
 
-特殊情況 [live demo](http://tpcg.io/OsaZ6W)：
+**特殊情況 [live demo](http://tpcg.io/OsaZ6W)：**
 ```java
 public class ComparisonDemo3 {
 	public static void main(String[] args) {		
@@ -85,7 +85,7 @@ public class ComparisonDemo3 {
 
 比較結果讓大家猜一猜
 
-- Calendar比較 [live demo](http://tpcg.io/enYwqH)：
+**Calendar比較 [live demo](http://tpcg.io/enYwqH)：**
 ```java
 public class ComparisonDemo4 {
 	public static void main(String[] args) {
