@@ -126,11 +126,68 @@ C1.equals(C2) clone  : true
 
 ```
 
-不equals 的原因很簡單，因為時間不一樣。
+> 不equals 的原因很簡單，因為時間不一樣。
 
-大致了解基本型態與參考型態的比較後，接下來我們來自訂類別，再比較看看。
+大致了解基本型態與參考型態的比較後，接下來我們來自訂類別，再比較看看 [live demo](http://tpcg.io/y6Iqdz)。
+**先創建 Point1 類別**
+```java
+class Point1 {
+	int x=0;
+	int y=0;
+	Point1(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+}
+```
 
+**Main class ComparisonDemo5**
+```java
+public class ComparisonDemo5 {
+	public static void main(String[] args) {
+		Point1 p11 = new Point1(1,1);
+		Point1 p12 = new Point1(1,1);		
+		System.out.println("p11.equals(p12): " + String.valueOf(p11.equals(p12)));		
+	}
+}
+```
 
+> 結果會如何呢? 答案是 `false`。
+
+任何物件都繼承自 `Object`，若沒有 @Override(覆寫) `equals` 方法時，就會調用 `Object` 的 `equals` 方法，也就是 `==`：
+```java
+public class Object {
+	...
+	public boolean equals(Object obj) {
+        return (this == obj);
+    }
+    ...
+}
+``` 
+
+**將 Point1 稍作修改**
+```java
+class Point1 {
+	int x=0;
+	int y=0;
+	Point1(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	@Override
+	public boolean equals(Object that) {
+		if(that==null) {
+			return false;
+		}
+		if(that instanceof Point1) {
+			return this.x == ((Point2)that).x && this.y == ((Point2)that).y;
+		}
+		return false;
+	}
+}
+```
+
+再執行一次，結果應該就會是 `true` 了。
 
 
 ### Markdown
