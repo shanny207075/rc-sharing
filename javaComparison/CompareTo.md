@@ -1,260 +1,147 @@
 ## Java CompareTo, Comparator
 
-首先我們先了解一下 Java 宣告參數及物件在記憶體的配置。
-![MemoryExplain](../images/memory_model_explain.jpg)
+Java 物件的 `CompareTo` 方法可以用來比大小(現實生活中我們也常在比大小，例如...年紀或輩份...題外話)，至於如何決定誰大誰小(例如：'A' 跟 'B' 誰大)，就需要更明確的定義。
 
-![MemoryExplain](../images/memory_model_runing.jpg)
-
-宣告為基本型態的參數可以直接用 `==` 來判斷是否相等 ; 而參考型態則有不同的判斷方式。 
-
-**基本型態的比較 [live demo](http://tpcg.io/3l2d6v)：**
+**先來看一個簡單好理解的例子** [live demo](http://tpcg.io/NiNOpd)
 ```java
-public class ComparisonDemo1 {
+public class SimpleCompareTo {
 	public static void main(String[] args) {
-		//基本型態的比較
-		byte 	b1 = 1,      b2 = 1;
-		short 	s1 = 2,      s2 = 2;
-		int 	i1 = 3,      i2 = 3;
-		long 	l1 = 4,      l2 = 4;
-		float 	f1 = 5.1f,   f2 = 5.1f;
-		double 	d1 = 6.2,    d2 = 6.20;
-	}
-}
-```
-
-比較結果
-> true,   true,   true,   true,   true,   true
-
-**參考型態的比較 [live demo](http://tpcg.io/w50qrI)：**
-```java
-public class ComparisonDemo2 {
-	public static void main(String[] args) {
-		//參考型態的比較
-		Byte B1 = new Byte((byte)100),            B2 = new Byte((byte)100);
-		Short S1 = new Short((short)300),         S2 = new Short((short)300);
-		Integer I1 = new Integer(100),            I2 = new Integer(100);
-		Long L1 = new Long(1000),                 L2 = new Long(1000);
-		Float F1 = new Float(100.12),             F2 = new Float(100.120);
-		Double D1 = new Double(100.0123),         D2 = new Double(100.012300);
-		BigDecimal BD1 = new BigDecimal(123.010), BD2 = new BigDecimal(123.0100);
-	}
-
-}
-```
-
-比較結果
-```
-Byte               B1==B2: false
-Short              S1==S2: false
-Integer            I1==I2: false
-Long               L1==L2: false
-Float              F1==F2: false
-Double             D1==D2: false
-BigDecimal       BD1==BD2: false
-
-Byte         B1.equals(B2): true
-Short        S1.equals(S2): true
-Integer      I1.equals(I2): true
-Long         L1.equals(L2): true
-Float        F1.equals(F2): true
-Double       D1.equals(D2): true
-BigDecimal BD1.equals(BD2): true
-```
-
-> 由結果得知，`==` 比較的是兩者是否是同一個物件 ; 而 `equals` 才是比較內容值。然而就像大部分的則規一樣，都有例外…
-
-**例外情況：**
-```java
-public class ComparisonDemo3 {
-	public static void main(String[] args) {		
-		
-		Integer I1=127,   I2=127;
-		Integer I3=300, I4=300;
-		System.out.println("I1==I2: " + String.valueOf(I1==I2));
-		System.out.println("I3==I4: " + String.valueOf(I3==I4) + "\n");
-		
-		String newString1 = new String("Oracle");
-		String newString2 = new String("Oracle");
-		System.out.println("newString1==newString2       : " + String.valueOf(newString1==newString2)) ;
-		System.out.println("newString1.equals(newString2): " + String.valueOf(newString1.equals(newString2)) + "\n");
-		
-		String javaStr3="Java";
-		String javaStr4="Java";
-		System.out.println("javaStr3==javaStr4: " + String.valueOf(javaStr3==javaStr4));
-	}
-}
-```
-
-> 比較結果讓大家猜一猜：[看解答](http://tpcg.io/OsaZ6W)
-
-為何 I1 等於等於 I2 而 I3 不等於等於 I4 呢? 因為 `Integer` 有個叫 `IntegerCache` 的內部類別，可以保證 -127~127 是相等的(但要是 new 出物件就還是不相等)。
-
-同樣的，`Short`、`Long` 也有他們的 Cache 類別。
-
-> 清醒一下：那為什麼 `Byte` 沒有 ?
-
-javaStr3==javaStr4 的原因是為了節省系統的資源，對於一些可共享的`String` 物件會先去 String Pool 查找是否有相同的 `String` 內容值，若有找到就直接回傳，不再重新 new 一個新的物件，參考下圖。
-
-當然，如果你直接 new 出來，那就不囉嗦，直接是一個新的物件。
-
-![String Comparison](../images/javaStringPool.png)
-
-
-**Calendar比較 [live demo](http://tpcg.io/enYwqH)：**
-```java
-public class ComparisonDemo4 {
-	public static void main(String[] args) {
-		Calendar C1=Calendar.getInstance();
-		C1.set(2019, 2, 3);
-		Calendar C2=Calendar.getInstance();
-		C2.set(2019, 2, 3);
-		
-		System.out.println("C1==C2               : " + String.valueOf(C1==C2));
-		System.out.println("C1.equals(C2)        : " + String.valueOf(C1.equals(C2)));
-		System.out.format("C1,C2 timeMiliiseconds: %d, %d \n",C1.getTimeInMillis() , C2.getTimeInMillis());
-		
-		C2=(Calendar) C1.clone();
-		System.out.println("C1.equals(C2) clone  : " + String.valueOf(C1.equals(C2)));		
-	}
-}
-```
-
-比較結果：
-```java
-C1==C2               : false
-C1.equals(C2)        : false
-C1,C2 timeMiliiseconds: 1551590675463, 1551590675476 
-C1.equals(C2) clone  : true
-
-```
-
-> 不equals 的原因很簡單，因為時間不一樣
-
-大致了解基本型態與參考型態的比較後，接下來我們來自訂類別，再比較看看。[live demo](http://tpcg.io/y6Iqdz)
-
-**先創建 Point1 類別**
-```java
-class Point1 {
-	int x=0;
-	int y=0;
-	Point1(int x, int y){
-		this.x = x;
-		this.y = y;
-	}
-}
-```
-
-**Main class ComparisonDemo5**
-```java
-public class ComparisonDemo5 {
-	public static void main(String[] args) {
-		Point1 p11 = new Point1(1,1);
-		Point1 p12 = new Point1(1,1);		
-		System.out.println("p11.equals(p12): " + String.valueOf(p11.equals(p12)));		
-	}
-}
-```
-
-> 結果會如何呢? 答案是 `false`
-
-任何物件都繼承自 `Object`，若沒有 @Override(覆寫) `equals` 方法時，就會調用 `Object` 的 `equals` 方法，也就是 `==`：
-```java
-public class Object {
-	...
-	public boolean equals(Object obj) {
-        return (this == obj);
+        Integer I99 = new Integer(99);
+        Integer I50 = new Integer(50);        
+        int compareInteger = I99.compareTo(I50);
+        
+        if(compareInteger < 0) {
+        		System.out.println("I99 小於 I50");
+        }else if(compareInteger ==0) {
+        		System.out.println("I99 等於 I50");
+        }else {
+        		System.out.println("I99 大於 I50");
+        }        
     }
-    ...
-}
-``` 
-
-**將 Point1 稍作修改**
-```java
-class Point1 {
-	int x=0;
-	int y=0;
-	Point1(int x, int y){
-		this.x = x;
-		this.y = y;
-	}
-	@Override
-	public boolean equals(Object that) {
-		if(that==null) {
-			return false;
-		}
-		if(that instanceof Point1) {
-			return this.x == ((Point2)that).x && this.y == ((Point2)that).y;
-		}
-		return false;
-	}
 }
 ```
 
-> 再執行一次，結果應該就會是 `true` 了
+> 結果會印出 I99 大於 I50，也就是 compareInteger 會回傳大於零的整數
 
-接著進一步將 **Point1** 物件放入 Collection 裡，再判斷物件的內容值是否相等。[live demo](http://tpcg.io/ZY335Q)
+能夠比較出大小之後，就可以進一步**作一個排序的動作**，先來看一下以下的例子： 
 ```java
-public class ComparisonDemo52 {
+public class Sort1 {
 	public static void main(String[] args) {
-		Point1 p11 = new Point1(1,1);
-		Point1 p12 = new Point1(1,1);
-		HashSet<Point1> set = new HashSet<Point1>();
-		set.add(p11);
-		System.out.println("is p12 contains in set: " + String.valueOf(set.contains(p12)));		
+		List<Integer> numbers = Arrays.asList(10, 2, 3, 1, 9, 15, 4);
+        Collections.sort(numbers);
+        System.out.println(numbers);
 	}
 }
 ```
 
-> 執行結果是 `false`
+很順利地就排出由小到大的順序了
+> [1, 2, 3, 4, 9, 10, 15]
 
-如果牽扯到 `Collection`，那就要考慮到 `hashCode` 了。
-
-當`Collection`物件放入(put) 某個元素(物件)時，會先調用 `hashCode()` 方法，決定這個物件要存在哪個位置。若該位置沒有其他物件就直接儲存; 否則會調用 `equals()` 判斷是否為相同元素，相同元素不存; 不相同則散列於其他位置。
-
-**重新創建一個類別 Point2**
+那如果有一天我想要列出員工資料並將它排序，應該就可以比照辦理了對吧 [live demo](http://tpcg.io/KVlAjP)
+**員工資料結構**
 ```java
-class Point2 {	
-	int x=0;
-	int y=0;
-	int identifier=0;
-	Point2(int x, int y, int h){
-		this.x = x;
-		this.y = y;
-		this.identifier = h;
-	}
-	@Override
-	public boolean equals(Object that) {
-		if(that==null) {
-			return false;
-		}
-		if(that instanceof Point2) {
-			return this.x == ((Point2)that).x && this.y == ((Point2)that).y;
-		}
-		return false;
-	}
-	/*----------------------------------------*/
-	@Override
-	public int hashCode() {
-		return this.identifier * 123;
-	}
-	/*----------------------------------------*/
-	
+class Employee {
+    private String name;	//姓名
+    private String number;	//員工編號
+    private int salary;		//薪資
+
+    Employee(String name, String number, int salary) {
+        this.name = name;
+        this.number = number;
+        this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Account(%s, %s, %d)", name, number, salary);
+    } 
 }
 ```
 
-**ComparisonDemo52**
+**Main class Sort2**
 ```java
-public class ComparisonDemo52 {
+public class Sort2 {
 	public static void main(String[] args) {		
-		Point2 p21 = new Point2(3,3, 9);
-		Point2 p22 = new Point2(3,3, 9);
-		HashSet<Point2> set2 = new HashSet<Point2>();
-		set2.add(p21);
-		System.out.println("is p22 contains in set: " + String.valueOf(set2.contains(p22)));
-		
+        List employees = Arrays.asList(
+                new Employee("Justin", "X1234", 34000),
+                new Employee("Monica", "X5678", 50000),
+                new Employee("Irene", "X2468", 42000)
+        );
+        Collections.sort(employees);
+        System.out.println(employees);
 	}
-
 }
 ```
 
-> 最後，它終於相等了(灑花)
+執行結果
+```java
+Exception in thread "main" java.lang.ClassCastException: Employee cannot be cast to java.lang.Comparable
+	at java.util.ComparableTimSort.countRunAndMakeAscending(ComparableTimSort.java:320)
+	at java.util.ComparableTimSort.sort(ComparableTimSort.java:188)
+	at java.util.Arrays.sort(Arrays.java:1246)
+	at java.util.Arrays.sort(Arrays.java:1433)
+	at java.util.Arrays$ArrayList.sort(Arrays.java:3895)
+	at java.util.Collections.sort(Collections.java:141)
+	at Sort1.main(Sort1.java:18)
+```
+
+發生錯誤了。原因是你沒有明確告訴系統要依什麼規則作排序，於是我們必須先實作 `Comparable` 介面，這個介面需要實作 `compareTo()` 方法。[live demo](http://tpcg.io/4r7PLb)
+
+**稍稍改寫一下 `Employee` 類別** 
+```java
+class Employee implements Comparable<Employee>{
+    ...
+
+    @Override
+    public int compareTo(Employee other) {
+        return this.salary - other.salary;
+    }
+}
+```
+
+再執行一次，就可以看到排序後的結果了
+> [ Employee2(Irene, X2468, 200) , Employee2(Monica, X5678, 500) , Employee2(Justin, X1234, 1000) ]
+
+> _Note:_ 若 `compareTo` 傳回負數，表示傳入的物件要排在自己的後方 ; 反之排在自己的前方。所以如果要降冪排列，只要在前面加個負號即可：`return -(this.salary - other.salary);`
+
+那現在我們來試試字串的排列：
+```java
+public class Sort1 {
+	public static void main(String[] args) {
+		List<String> chars = Arrays.asList("B", "X", "A", "M", "F", "W", "O");
+        Collections.sort(chars);
+        System.out.println(chars);
+	}
+}
+```
+
+It's Easy, right ?
+> [A, B, F, M, O, W, X]
+
+可是如果我想改成降冪排序的話，該怎麼做呢? 改寫 `String` 的 `compareTo` 再存回 jar 檔? 這樣的話你的 `String` 就跟別人不一樣了耶，只要換個環境就不起作用了。而且如果有別的地方要用到升冪排序，你就會陷入兩難了。
+
+幸好這些問題都有人幫我們解決了，方法是使用 `Comparator` 介面。我們要先自訂一個 String 的 Comparator： [live demo](http://tpcg.io/kZcoRq)
+```java
+class StringComparator implements Comparator<String> {
+    @Override
+    public int compare(String s1, String s2) {
+        return -s1.compareTo(s2);
+    }
+}
+```
+
+有了它，只要將 **Sort1** 稍作修改：
+```java
+public class Sort1 {
+	public static void main(String[] args) {
+		...
+        Collections.sort(chars, , new StringComparator());
+        ...
+	}
+}
+```
+
+大功告成
+> [X, W, O, M, F, B, A]
+
+> _Note:_ live demo 連結中有提供匿名寫法，可以不用另外宣告一個class，有興趣可以看看
