@@ -30,12 +30,12 @@ public class ComparisonDemo1 {
 public class ComparisonDemo2 {
 	public static void main(String[] args) {
 		//參考型態的比較
-		Byte B1 = new Byte((byte)100),            B2 = new Byte((byte)100);
-		Short S1 = new Short((short)300),         S2 = new Short((short)300);
-		Integer I1 = new Integer(100),            I2 = new Integer(100);
-		Long L1 = new Long(1000),                 L2 = new Long(1000);
-		Float F1 = new Float(100.12),             F2 = new Float(100.120);
-		Double D1 = new Double(100.0123),         D2 = new Double(100.012300);
+		Byte        B1 = new Byte((byte)100),      B2 = new Byte((byte)100);
+		Short       S1 = new Short((short)300),    S2 = new Short((short)300);
+		Integer     I1 = new Integer(100),         I2 = new Integer(100);
+		Long        L1 = new Long(1000),           L2 = new Long(1000);
+		Float       F1 = new Float(100.12),        F2 = new Float(100.120);
+		Double      D1 = new Double(100.0123),     D2 = new Double(100.012300);
 		BigDecimal BD1 = new BigDecimal(123.010), BD2 = new BigDecimal(123.0100);
 	}
 
