@@ -2,7 +2,7 @@
 
 Java 物件的 `CompareTo` 方法可以用來比大小(現實生活中我們也常在比大小，例如...年紀或輩份...題外話)，至於如何決定誰大誰小(例如：'A' 跟 'B' 誰大)，就需要更明確的定義。
 
-**先來看一個簡單好理解的例子** [SimpleCompareTo](http://tpcg.io/NiNOpd)
+**先來看一個簡單好理解的例子** [demo SimpleCompareTo](http://tpcg.io/NiNOpd)
 ```java
 public class SimpleCompareTo {
 	public static void main(String[] args) {
@@ -21,9 +21,9 @@ public class SimpleCompareTo {
 }
 ```
 
-> 結果會印出 I99 大於 I50，也就是 compareInteger 會回傳大於零的整數
+> 結果會印出 I99 大於 I50，也就是當呼叫 `compareTo()` 的物件的值大於參數值，會回傳大於 0 的整數
 
-能夠比較出大小之後，就可以進一步**作一個排序的動作**，先來看一下以下的例子： 
+能夠比較出大小之後，就可以進一步**作一個排序的動作**。先來看下面的例子： 
 ```java
 public class Sort1 {
     public static void main(String[] args) {
@@ -37,7 +37,8 @@ public class Sort1 {
 很順利地就排出由小到大的順序了
 > [1, 2, 3, 4, 9, 10, 15]
 
-那如果有一天我想要列出員工資料並將它排序，應該就可以比照辦理了對吧 [Sort1](http://tpcg.io/KVlAjP)
+那如果有一天我想要列出員工資料並將它排序，應該就可以比照辦理了對吧 [demo Sort1](http://tpcg.io/KVlAjP)
+
 **員工資料結構**
 ```java
 class Employee {
@@ -58,7 +59,7 @@ class Employee {
 }
 ```
 
-**Main class Sort2**
+**Main class**
 ```java
 public class Sort2 {
 	public static void main(String[] args) {
@@ -85,7 +86,7 @@ Exception in thread "main" java.lang.ClassCastException: Employee cannot be cast
 	at Sort1.main(Sort1.java:18)
 ```
 
-發生錯誤了。原因是你沒有明確告訴系統要依什麼規則作排序，於是我們必須先實作 `Comparable` 介面，這個介面需要實作 `compareTo()` 方法。[Sort2](http://tpcg.io/4r7PLb)
+發生錯誤了 ! 原因是你沒有明確告訴系統要依什麼規則作排序，於是我們必須先實作 `Comparable` 介面，需要實作 `compareTo()` 方法 [demo Sort2](http://tpcg.io/4r7PLb)
 
 **稍稍改寫一下 `Employee` 類別** 
 ```java
@@ -104,7 +105,7 @@ class Employee implements Comparable<Employee>{
 
 > _Note:_ 若 `compareTo` 傳回負數，表示傳入的物件要排在自己的後方 ; 反之排在自己的前方。所以如果要降冪排列，只要在前面加個負號即可：`return -(this.salary - other.salary);`
 
-那現在我們來試試字串的排列：
+現在我們來試試字串的排列：
 ```java
 public class Sort1 {
     public static void main(String[] args) {
@@ -120,7 +121,7 @@ It's Easy, right ?
 
 可是如果我想改成降冪排序的話，該怎麼做呢? 改寫 `String` 的 `compareTo` 再存回 jar 檔? 這樣的話你的 `String` 就跟別人不一樣了耶，只要換個環境就不起作用了。而且如果有別的地方要用到升冪排序，你就會陷入兩難了。
 
-幸好這些問題都有人幫我們解決了，方法是使用 `Comparator` 介面。我們要先自訂一個 String 的 Comparator： [Sort3](http://tpcg.io/kZcoRq)
+幸好這些問題都有人幫我們解決了，方法是使用 `Comparator` 介面。我們要先自訂一個 String 的 Comparator： [[demo Sort3](http://tpcg.io/kZcoRq)]
 ```java
 class StringComparator implements Comparator<String> {
     @Override
