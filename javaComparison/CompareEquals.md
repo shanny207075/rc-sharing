@@ -7,7 +7,7 @@
 
 宣告為基本型態的參數可以直接用 `==` 來判斷是否相等 ; 而參考型態則有不同的判斷方式。 
 
-**基本型態的比較 [live demo](http://tpcg.io/3l2d6v)：**
+**基本型態的比較 [ComparisonDemo1](http://tpcg.io/3l2d6v)：**
 ```java
 public class ComparisonDemo1 {
 	public static void main(String[] args) {
@@ -25,7 +25,7 @@ public class ComparisonDemo1 {
 比較結果
 > true,   true,   true,   true,   true,   true
 
-**參考型態的比較 [live demo](http://tpcg.io/w50qrI)：**
+**參考型態的比較 [ComparisonDemo2](http://tpcg.io/w50qrI)：**
 ```java
 public class ComparisonDemo2 {
 	public static void main(String[] args) {
@@ -69,7 +69,7 @@ public class ComparisonDemo3 {
 	public static void main(String[] args) {		
 		
 		Integer I1=127,   I2=127;
-		Integer I3=300, I4=300;
+		Integer I3=300,   I4=300;
 		System.out.println("I1==I2: " + String.valueOf(I1==I2));
 		System.out.println("I3==I4: " + String.valueOf(I3==I4) + "\n");
 		
@@ -100,7 +100,7 @@ javaStr3==javaStr4 的原因是為了節省系統的資源，對於一些可共�
 ![String Comparison](../images/javaStringPool.png)
 
 
-**Calendar比較 [live demo](http://tpcg.io/enYwqH)：**
+**Calendar比較 [ComparisonDemo4](http://tpcg.io/enYwqH)：**
 ```java
 public class ComparisonDemo4 {
 	public static void main(String[] args) {
@@ -121,16 +121,16 @@ public class ComparisonDemo4 {
 
 比較結果：
 ```java
-C1==C2               : false
-C1.equals(C2)        : false
+C1==C2                : false
+C1.equals(C2)         : false
 C1,C2 timeMiliiseconds: 1551590675463, 1551590675476 
-C1.equals(C2) clone  : true
+C1.equals(C2) clone   : true
 
 ```
 
 > 不equals 的原因很簡單，因為時間不一樣
 
-大致了解基本型態與參考型態的比較後，接下來我們來自訂類別，再比較看看。[live demo](http://tpcg.io/y6Iqdz)
+大致了解基本型態與參考型態的比較後，接下來我們來自訂類別，再比較看看。[ComparisonDemo5](http://tpcg.io/y6Iqdz)
 
 **先創建 Point1 類別**
 ```java
@@ -192,7 +192,7 @@ class Point1 {
 
 > 再執行一次，結果應該就會是 `true` 了
 
-接著進一步將 **Point1** 物件放入 Collection 裡，再判斷物件的內容值是否相等。[live demo](http://tpcg.io/ZY335Q)
+接著進一步將 **Point1** 物件放入 Collection 裡，再判斷物件的內容值是否相等。[ComparisonDemo52](http://tpcg.io/ZY335Q)
 ```java
 public class ComparisonDemo52 {
 	public static void main(String[] args) {
