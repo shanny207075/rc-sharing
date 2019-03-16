@@ -146,3 +146,9 @@ public class Sort1 {
 > [X, W, O, M, F, B, A]
 
 > _Note:_ live demo 連結中有提供匿名寫法，可以不用另外宣告一個class，有興趣可以看看
+
+再來就自己練習看看囉 !
+
+[[練習1](http://tpcg.io/NTQ6Hz)]
+
+[[練習2](http://tpcg.io/VAmMIp)]

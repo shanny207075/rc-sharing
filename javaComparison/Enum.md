@@ -123,3 +123,5 @@ public class EnumDemo23 {
 
 以上是 Java Enum 的簡介，內容幾乎都是參考[良葛格 JavaSE6](https://github.com/JustinSDK/JavaSE6Tutorial/blob/master/docs/CH11.md) 的筆記，有興趣可以透過連結閱讀他的詳細解說。
 
+最後還是來個練習吧 ! [[練習](http://tpcg.io/1e0HbS)]
+
