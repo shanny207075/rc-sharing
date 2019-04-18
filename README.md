@@ -1,6 +1,6 @@
 ## 程式心得筆記
 
-[Java 等號運算子== , Equals](javaComparison/CompareOperators.md)
+[Java 等號運算子== , Equals](javaComparison/CompareEquals.md)
 
 [Java CompareTo](javaComparison/CompareTo.md)
 
