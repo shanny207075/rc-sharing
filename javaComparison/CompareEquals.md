@@ -185,7 +185,7 @@ class Point1 {
 			return false;
 		}
 		if(that instanceof Point1) {
-			return this.x == ((Point2)that).x && this.y == ((Point2)that).y;
+			return this.x == ((Point1)that).x && this.y == ((Point1)that).y;
 		}
 		return false;
 	}
