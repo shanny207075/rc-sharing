@@ -101,7 +101,7 @@ class Employee implements Comparable<Employee>{
 ```
 
 再執行一次，就可以看到排序後的結果了
-> [ Employee2(Irene, X2468, 200) , Employee2(Monica, X5678, 500) , Employee2(Justin, X1234, 1000) ]
+> [ Employee(Justin, X1234, 34000) , Employee(Irene, X2468, 42000) , Employee(Monica, X5678, 50000) ]
 
 > _Note:_ 若 `compareTo` 傳回負數，表示傳入的物件要排在自己的後方 ; 反之排在自己的前方。所以如果要降冪排列，只要在前面加個負號即可：`return -(this.salary - other.salary);`
 
@@ -152,3 +152,5 @@ public class Sort1 {
 [[練習1](http://tpcg.io/NTQ6Hz)]
 
 [[練習2](http://tpcg.io/VAmMIp)]
+
+[下一主題](Enum.md) [回目錄](../README.md)
