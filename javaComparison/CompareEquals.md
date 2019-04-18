@@ -260,3 +260,5 @@ public class ComparisonDemo52 {
 ```
 
 > 最後，它終於相等了(灑花)
+
+[下一主題](CompareTo.md) [回目錄](../README.md)
